@@ -264,4 +264,6 @@ typedef void (^RouterOpenCallback)(NSDictionary *params);
  */
  - (void)open:(NSString *)url animated:(BOOL)animated;
 
+- (void)open:(NSString *)url context:(NSString*) context animated:(BOOL)animated;
+
 @end

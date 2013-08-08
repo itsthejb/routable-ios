@@ -187,15 +187,29 @@
 }
 
 - (void)open:(NSString *)url animated:(BOOL)animated {
+  [self open:url context:nil animated:animated];
+}
+
+- (void)open:(NSString *)url context:(NSString*) context animated:(BOOL)animated
+{
   NSMutableArray *pathComponets = url.pathComponents.mutableCopy;
   if(pathComponets.count && self.childRouters[pathComponets[0]]) {
     UPRouter *childRouter = self.childRouters[pathComponets[0]];
     [pathComponets removeObjectAtIndex:0];
-    [childRouter open:[pathComponets componentsJoinedByString:@"/"] animated:animated];
+    [childRouter open:[pathComponets componentsJoinedByString:@"/"]
+              context:context
+             animated:animated];
     return;
   }
 
   RouterParams *params = [self routerParamsForUrl:url];
+
+  if (context) {
+    NSMutableDictionary *mute = params.openParams.mutableCopy;
+    [mute setValue:context forKey:@"context"];
+    params.openParams = mute.copy;
+  }
+
   UPRouterOptions *options = params.routerOptions;
   
   if (options.callback) {
