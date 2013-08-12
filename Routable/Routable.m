@@ -293,7 +293,8 @@
   }
   
   if (!openParams) {
-    @throw [NSException exceptionWithName:@"RouteNotFoundException"
+    @throw [NSException exceptionWithName:[NSString stringWithFormat:@"<%@> RouteNotFoundException",
+                                           NSStringFromClass(self.class)]
                                    reason:[NSString stringWithFormat:ROUTE_NOT_FOUND_FORMAT, url]
                                  userInfo:nil];
   }
